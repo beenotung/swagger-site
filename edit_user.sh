@@ -91,6 +91,8 @@ else
     # -- remove user --
     should_ask_password=0;
     summary_message="removed ($permission) user \"$username\" from project \"$project_name\"";
+    cat "$project_folder/.htpasswd" | grep -v "^$username:" > temp
+    mv temp "$project_folder/.htpasswd"
   elif [ $line == "c" ]; then
     summary_message="changed password of ($permission) user \"$username\" from project \"$project_name\"";
   else
