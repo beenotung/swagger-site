@@ -52,7 +52,7 @@ echo "Require valid-user"                                           >> .htaccess
 
 echo "demo:\$apr1$JJuyRiXp\$0ZFmCMPNzaDORrWFM098e1"                 >> .htpasswd
 
-echo -n "(read/write right) username: ";
+echo -n "(editor) username: ";
 read username;
 
 htpasswd -c .htpasswd "$username";

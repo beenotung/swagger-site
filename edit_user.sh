@@ -110,25 +110,8 @@ function catch_errors() {
 if [ "$should_ask_password" == 1 ]; then
   res=$(htpasswd "$project_folder/.htpasswd" "$username");
 fi
-#echo "password result = \"$res\""
-#if [ res != 0 ]; then
-#  echo "Error : password not match";
-#  exit 1;
-#fi
 
 # ---- summary ----
 
 echo "$summary_message";
-#if [ "$is_user_exist" == 0 ]; then
-#  if [ ${permission} == "r" ]; then
-#    echo "created read only account : $username";
-#  elif [ ${permission} == "rw" ]; then
-#    echo -n "creating read write account : $username";
-#  else
-#    echo "Assert Error : undefined permission $permission";
-#    exit 1;
-#  fi
-#fi
-
-
 echo "All Done."
