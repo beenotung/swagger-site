@@ -26,21 +26,32 @@ $(checkCommand htpasswd);
 # ---- main body ----
 
 echo -n "new project name (do not contain \" ) : ";
-read project_name
+read project_name;
+
+if [ -d $project_name ] || [ -d $project_name"_publish" ]; then
+  echo "Error : project already exist";
+  exit 1;
+elif [ $project_name == "publish" ]; then
+  echo "Error : invalid project name";
+  exit 1;
+fi
 
 cmd="cp -r seed \"$project_name\"";
 echo "$cmd";
 echo "$cmd" | sh;
+cmd="cp -r seed \"$project_name\"_publish";
+echo "$cmd";
+echo "$cmd" | sh;
 
 cd "$project_name";
-echo "AuthType Basic"                                    > .htaccess
-echo "AuthName \"Authentication Required\""             >> .htaccess
-echo "AuthUserFile \"/var/www/api_doc/$project_name/.htpasswd\"" >> .htaccess
-echo "Require valid-user"                               >> .htaccess
+echo "AuthType Basic"                                                > .htaccess
+echo "AuthName \"Authentication Required\""                         >> .htaccess
+echo "AuthUserFile \"/var/www/api_doc/$project_name/.htpasswd\""    >> .htaccess
+echo "Require valid-user"                                           >> .htaccess
 
-echo "demo:\$apr1$JJuyRiXp\$0ZFmCMPNzaDORrWFM098e1"     >> .htpasswd
+echo "demo:\$apr1$JJuyRiXp\$0ZFmCMPNzaDORrWFM098e1"                 >> .htpasswd
 
-echo -n "user name : ";
+echo -n "(read/write right) username: ";
 read username;
 
 htpasswd -c .htpasswd "$username";

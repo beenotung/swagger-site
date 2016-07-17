@@ -25,8 +25,9 @@ $(checkCommand htpasswd);
 
 # ---- main body ----
 
+# input project
 echo "project list :"
-find -type f -name ".htaccess" | awk -F '.' '{print $2}' | awk -F '/' '{print $2}' | xargs -I {} echo "  " {}
+find -type f -name ".htaccess" | awk -F '.' '{print $2}' | awk -F '/' '{print $2}' | grep -v '_publish$' | uniq | xargs -I {} echo "  " {}
 echo -n "which project is this user for? ";
 read project_name;
 if [ ! -d "$project_name" ]; then
@@ -34,6 +35,22 @@ if [ ! -d "$project_name" ]; then
   exit 1;
 fi
 
+# input user type
+echo -n "user permission (R/RW): ";
+read permission;
+project_folder="";
+if [ $permission == "R" ]; then
+#  echo "creating read only account...";
+  project_folder=$project_name"_publish";
+elif [ $permission == "RW" ]; then
+#  echo "creating read write account...";
+  project_folder="$project_name";
+else
+  echo "Error : invalid permission";
+  exit 1;
+fi
+
+# input username
 echo -n "username: ";
 read username;
 linecount=$(grep "^$username:" "$project_name/.htpasswd" | wc -l);
@@ -42,14 +59,26 @@ if [ $linecount != 0 ]; then
   exit 1;
 fi
 
-echo -n "user permission (R/RW): ";
-read permission;
+# init password file
+if [ ! -f "$project_folder/.htpasswd" ]; then
+  touch "$project_folder/.htpasswd";
+fi
+
+# input password
+res=$(htpasswd "$project_folder/.htpasswd" "$username");
+if [ res != 0 ]; then
+  echo "Error : password not match";
+  exit 1;
+fi
+
+# ---- summary ----
+
 if [ $permission == "R" ]; then
-  echo "creating read only account...";
+  echo "created read only account : $username";
 elif [ $permission == "RW" ]; then
-  echo "creating read write account...";
+  echo -n "creating read write account : $username";
 else
-  echo "Error : invalid permission";
+  echo "Assert Error : undefined permission $permission";
   exit 1;
 fi
 
