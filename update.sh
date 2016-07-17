@@ -30,7 +30,7 @@ fi
 # ---- main body ----
 
 function syncProject() {
-  project_name="$1";
+  project_name="$@";
   echo "syncing project \"$project_name\"...";
   cp -rf "$project_name" "$project_name""_publish"
   return 0;
