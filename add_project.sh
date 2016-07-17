@@ -41,6 +41,9 @@ echo "Require valid-user"                               >> .htaccess
 echo "demo:\$apr1$JJuyRiXp\$0ZFmCMPNzaDORrWFM098e1"     >> .htpasswd
 
 echo -n "user name : ";
-read username
+read username;
 
-htpasswd -c .htpasswd "$username"
+htpasswd -c .htpasswd "$username";
+
+echo "created project : $project_name";
+echo "All Done.";

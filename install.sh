@@ -48,3 +48,6 @@ echo "AuthUserFile \"/var/www/api_doc/seed/.htpasswd\"" >> .htaccess
 echo "Require valid-user"                               >> .htaccess
 
 echo "demo:\$apr1$JJuyRiXp\$0ZFmCMPNzaDORrWFM098e1"      > .htpasswd
+
+echo "Finished seed project setup";
+echo "All Done.";
