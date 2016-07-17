@@ -32,15 +32,13 @@ fi
 function syncProject() {
   project_name="$1";
   echo "syncing project \"$project_name\"...";
-  cmd="cp -rf \"$project_name\" \"$project_name""_publish\"";
-#  echo "$cmd";
-  echo "$cmd" | sh;
+  cp -rf "$project_name" "$project_name""_publish"
   return 0;
 }
 export -f syncProject
 
 function update() {
-  find -type f -name ".htaccess" | awk -F '.' '{print $2}' | grep -v '^/$' | awk -F '/' '{print $2}' | grep -v '_publish$' | grep -v '^seed$' | uniq | xargs -I {} echo syncProject {} | sh
+  find -type f -name ".htaccess" | awk -F '.' '{print $2}' | grep -v '^/$' | awk -F '/' '{print $2}' | grep -v '_publish$' | grep -v '^seed$' | uniq | xargs -I {} echo syncProject {} | bash
   echo "finished update all projects.";
 }
 
