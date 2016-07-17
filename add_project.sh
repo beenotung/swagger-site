@@ -27,11 +27,12 @@ $(checkCommand htpasswd);
 
 echo -n "new project name (do not contain \" ) : ";
 read project_name;
+project_publish_name="$project_name""_publish"
 
-if [ -d $project_name ] || [ -d $project_name"_publish" ]; then
+if [ -d "$project_name" ] || [ -d "$project_publish_name" ]; then
   echo "Error : project already exist";
   exit 1;
-elif [ $project_name == "publish" ]; then
+elif [ "$project_name" == "publish" ]; then
   echo "Error : invalid project name";
   exit 1;
 fi
@@ -39,7 +40,7 @@ fi
 cmd="cp -r seed \"$project_name\"";
 echo "$cmd";
 echo "$cmd" | sh;
-cmd="cp -r seed \"$project_name\"_publish";
+cmd="cp -r seed \"$project_publish_name\"";
 echo "$cmd";
 echo "$cmd" | sh;
 
